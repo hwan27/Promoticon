@@ -20,8 +20,7 @@ import javax.validation.Valid;
 public class AccountController {
 
     private final SignUpFormValidator signUpFormValidator;
-    private final AccountRepository accountRepository;
-    private final JavaMailSender javaMailSender;
+    private final AccountService accountService;
 
     @InitBinder("signUpForm")
     public void initBinder(WebDataBinder webDataBinder) {
@@ -40,27 +39,7 @@ public class AccountController {
             return "account/sign-up";
         }
 
-        Account account = Account.builder()
-                .email(signUpForm.getEmail())
-                .username(signUpForm.getUsername())
-                .password(signUpForm.getPassword()) //TODO password encoding
-                .emoticonCreatedByWeb(true)
-                .feedbackUpdatedByWeb(true)
-                .build();
-
-        Account newAccount = accountRepository.save(account);
-
-        newAccount.generateEmailCheckToken();
-
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(newAccount.getEmail());
-        mailMessage.setSubject("Promoticon: 회원 가입 인");
-        mailMessage.setText("/check-email-token?token=" + newAccount.getEmailCheckToken()
-                                + "&email=" + newAccount.getEmail());
-
-        javaMailSender.send(mailMessage);
-        //TODO 회원 가입 처리
+        accountService.processNewAccount(signUpForm);
         return "redirect:/";
     }
-
 }
