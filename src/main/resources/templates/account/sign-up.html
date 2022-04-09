@@ -47,7 +47,7 @@
             <h2>create account</h2>
         </div>
         <div class="row justify-content-center">
-            <form class="needs-validation col-sm-6" action="#" th:action="@{signup}" th:object="${signUpForm}"
+            <form class="needs-validation col-sm-6" action="#" th:action="@{sign-up}" th:object="${signUpForm}"
                   method="post" novalidate>
                 <div class="form-group">
                     <label for="username">username</label>
@@ -57,7 +57,7 @@
                         you can type with alphabet and number for between 3-20. you can change your username later
                     </small>
                     <small class="invalid-feedback">type your username</small>
-                    <small class="form-text text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username">Username Error</small>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</small>
                 </div>
 
                 <div class="form-group">
