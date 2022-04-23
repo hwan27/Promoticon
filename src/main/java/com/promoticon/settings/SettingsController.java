@@ -16,10 +16,10 @@ import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
-public class settingsController {
+public class SettingsController {
 
-    private static final String SETTING_PROFILE_VIEW_NAME = "settings/profile";
-    private static final String SETTINGS_PROFILE_URL = "/settings/profile";
+    static final String SETTINGS_PROFILE_VIEW_NAME = "settings/profile";
+    static final String SETTINGS_PROFILE_URL = "/settings/profile";
 
     private final AccountService accountService;
 
@@ -27,14 +27,14 @@ public class settingsController {
     public String profileUpdateForm(@CurrentUser Account account, Model model) {
         model.addAttribute(account);
         model.addAttribute(new Profile(account));
-        return SETTING_PROFILE_VIEW_NAME;
+        return SETTINGS_PROFILE_VIEW_NAME;
     }
 
     @PostMapping(SETTINGS_PROFILE_URL)
     public String updateProfile(@CurrentUser Account account, @Valid @ModelAttribute Profile profile, Errors errors, Model model, RedirectAttributes attributes) {
         if (errors.hasErrors()) {
             model.addAttribute(account);
-            return SETTING_PROFILE_VIEW_NAME;
+            return SETTINGS_PROFILE_VIEW_NAME;
         }
 
         accountService.updateProfile(account, profile);
