@@ -2,8 +2,10 @@ package com.promoticon.settings;
 
 import com.promoticon.domain.Account;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class Profile {
 
     private String bio;

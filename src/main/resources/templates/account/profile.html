@@ -45,7 +45,7 @@
                         <span style="...">
                             <i class="fa fa-link col-1"></i>
                         </span>
-                        <span th:text="{account.url}" class="col-11"></span>
+                        <span th:text="${account.url}" class="col-11"></span>
                     </p>
                     <p th:if="${!#strings.isEmpty(account.occupation)}">
                         <span style="...">
