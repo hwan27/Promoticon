@@ -138,4 +138,44 @@ class SettingsControllerTest {
                 .andExpect(model().attributeExists("passwordForm"))
                 .andExpect(model().attributeExists("account"));
     }
+
+    @WithAccount("mea")
+    @DisplayName("유저이름 수정 폼")
+    @Test
+    void updateUsernameForm() throws Exception {
+        mockMvc.perform(get(SettingsController.SETTINGS_ACCOUNT_URL))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("account"))
+                .andExpect(model().attributeExists("usernameForm"));
+    }
+
+
+    @WithAccount("mea")
+    @DisplayName("유저이름 변경 성공")
+    @Test
+    void updateUsername() throws Exception {
+        String newUsername = "hwan";
+        mockMvc.perform(post(SettingsController.SETTINGS_ACCOUNT_URL)
+                .param("username", newUsername)
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl(SettingsController.SETTINGS_ACCOUNT_URL))
+                .andExpect(flash().attributeExists("message"));
+        assertNotNull(accountRepository.findByUsername("hwan"));
+    }
+
+    @WithAccount("mea")
+    @DisplayName("유저이름 변경 실패: 입력값 에러")
+    @Test
+    void updateUsernameWithWrongInput() throws Exception {
+        String newUsername = "me_/";
+        mockMvc.perform(post(SettingsController.SETTINGS_ACCOUNT_URL)
+                        .param("username", newUsername)
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(view().name(SettingsController.SETTINGS_ACCOUNT_VIEW_NAME))
+                .andExpect(model().hasErrors())
+                .andExpect(model().attributeExists("account"))
+                .andExpect(model().attributeExists("usernameForm"));
+    }
 }
