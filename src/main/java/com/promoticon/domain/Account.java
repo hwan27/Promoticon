@@ -41,11 +41,11 @@ public class Account {
     @Lob @Basic(fetch = FetchType.EAGER)
     private String profileImage;
 
-    private boolean emoticonCreatedByWeb;
+    private boolean emoticonCreatedByWeb = true;
 
     private boolean emoticonCreatedByEmail;
 
-    private boolean feedbackUpdatedByWeb;
+    private boolean feedbackUpdatedByWeb = true;
 
     private boolean feedbackUpdatedByEmail;
 
